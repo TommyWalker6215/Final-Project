@@ -1,6 +1,7 @@
 % 00 Connect to ROS (use your own masterhost IP address)
     clc
     clear
+    close all
     rosshutdown;
     masterhostIP = "192.168.213.128";
     rosinit(masterhostIP)
@@ -13,9 +14,9 @@
 
 %Robot = get_robot_object_pose_wrt_base_link("robot",1)
 robot = loadrobot("universalUR5e","DataFormat","row");
-canBox = collisionBox(0.08, 0.08, 0.14);
-bottleBox = collisionBox(0.07, 0.07, 0.18);
-pouchBox = collisionBox(0.04, 0.04, 0.04);
+canBox = collisionBox(0.062, 0.062, 0.14);
+bottleBox = collisionBox(0.062, 0.062, 0.2);
+pouchBox = collisionBox(0.03, 0.03, 0.03);
 scaleBox = collisionBox(0.3, 0.3, 0.1);
 box2Box = collisionBox(0.12, 0.2, 0.16);
 box1Box = collisionBox(0.16, 0.2, 0.14);
@@ -33,6 +34,7 @@ for i = [2:39]
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_robot_object_pose_wrt_base_link(model_name);
         env{i} = bottleBox;
+        mat_R_T_M(3,4) =  (mat_R_T_M(3,4)-0.18);
         env{i}.Pose(1:3, end) = mat_R_T_M(1:3,4);
         %env{i}.Pose(1:3, end) = [mat_R_T_M.Pose.Position.X, mat_R_T_M.Pose.Position.Y, mat_R_T_M.Pose.Position.Z]
         show(env{i})
@@ -45,6 +47,7 @@ for i = [2:39]
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_robot_object_pose_wrt_base_link(model_name);
         env{i} = canBox;
+        mat_R_T_M(3,4) =  (mat_R_T_M(3,4)-0.18);
         env{i}.Pose(1:3, end) = mat_R_T_M(1:3,4);
         %env{i}.Pose(1:3, end) = [mat_R_T_M.Pose.Position.X, mat_R_T_M.Pose.Position.Y, mat_R_T_M.Pose.Position.Z]
         show(env{i})
@@ -57,6 +60,7 @@ for i = [2:39]
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_robot_object_pose_wrt_base_link(model_name);
         env{i} = pouchBox;
+        mat_R_T_M(3,4) =  (mat_R_T_M(3,4)-0.18);
         env{i}.Pose(1:3, end) = mat_R_T_M(1:3,4);
         %env{i}.Pose(1:3, end) = [mat_R_T_M.Pose.Position.X, mat_R_T_M.Pose.Position.Y, mat_R_T_M.Pose.Position.Z]
         show(env{i})
@@ -69,6 +73,7 @@ for i = [2:39]
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_robot_object_pose_wrt_base_link(model_name);
         env{i} = scaleBox;
+        mat_R_T_M(3,4) =  (mat_R_T_M(3,4)-0.18);
         env{i}.Pose(1:3, end) = mat_R_T_M(1:3,4);
         %env{i}.Pose(1:3, end) = [mat_R_T_M.Pose.Position.X, mat_R_T_M.Pose.Position.Y, mat_R_T_M.Pose.Position.Z]
         show(env{i})
@@ -81,6 +86,7 @@ for i = [2:39]
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_robot_object_pose_wrt_base_link(model_name);
         env{i} = box2Box;
+        mat_R_T_M(3,4) =  (mat_R_T_M(3,4)-0.18);
         env{i}.Pose(1:3, end) = mat_R_T_M(1:3,4);
         %env{i}.Pose(1:3, end) = [mat_R_T_M.Pose.Position.X, mat_R_T_M.Pose.Position.Y, mat_R_T_M.Pose.Position.Z]
         show(env{i})
@@ -93,6 +99,7 @@ for i = [2:39]
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_robot_object_pose_wrt_base_link(model_name);
         env{i} = box1Box;
+        mat_R_T_M(3,4) =  (mat_R_T_M(3,4)-0.18);
         env{i}.Pose(1:3, end) = mat_R_T_M(1:3,4);
         %env{i}.Pose(1:3, end) = [mat_R_T_M.Pose.Position.X, mat_R_T_M.Pose.Position.Y, mat_R_T_M.Pose.Position.Z]
         show(env{i})
@@ -105,6 +112,7 @@ for i = [2:39]
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_robot_object_pose_wrt_base_link(model_name);
         env{i} = wcaseBox;
+        mat_R_T_M(3,4) =  (mat_R_T_M(3,4)-0.18);
         env{i}.Pose(1:3, end) = mat_R_T_M(1:3,4);
         %env{i}.Pose(1:3, end) = [mat_R_T_M.Pose.Position.X, mat_R_T_M.Pose.Position.Y, mat_R_T_M.Pose.Position.Z]
         show(env{i})
@@ -117,6 +125,7 @@ for i = [2:39]
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_robot_object_pose_wrt_base_link(model_name);
         env{i} = tableBox;
+        mat_R_T_M(3,4) =  (mat_R_T_M(3,4)+0.07);
         env{i}.Pose(1:3, end) = mat_R_T_M(1:3,4);
         %env{i}.Pose(1:3, end) = [mat_R_T_M.Pose.Position.X, mat_R_T_M.Pose.Position.Y, mat_R_T_M.Pose.Position.Z]
         show(env{i})
