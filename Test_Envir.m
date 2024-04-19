@@ -131,7 +131,7 @@ for i = [2:39]
         show(env{i})
         hold on
     else
-        disp('something went wrong')
+        disp('This is not a Priority')
     end
 end
 
