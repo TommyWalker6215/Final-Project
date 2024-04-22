@@ -1,10 +1,6 @@
 function env = Generate_Env2
 clc
-    clear
-    close all
-    rosshutdown;
-    masterhostIP = "192.168.213.128";
-    rosinit(masterhostIP)
+
 % 01 Go Home
     disp('Going home...');
     goHome('qr ');    % moves robot arm to a qr or qz start config
