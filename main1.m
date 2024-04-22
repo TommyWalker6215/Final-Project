@@ -49,7 +49,7 @@ pause(1)
 
 % loading environment
 disp('Loading Environment...')
-env = Test_Envir();
+env = Generate_Env2();
 %   taking all objects from the env cell array, and placing them into the new
 %   environment cell array, effectively removing all non-collision-box 
 %   objects
