@@ -1,5 +1,15 @@
 function env = Generate_Env2
-clc
+%=========================================================================
+% This function Generates the Environment used to plan RRT
+% It first creates collision box types (canBox, pouch Box)
+% Then associates a collision box to each pose pulled from Gazebo
+% Finally it shows it all in a matlab Plot
+%
+% Inputs: Gazebo Poses pulled 
+% Outputs: env cell
+%          env is populated will collision boxes for every object
+%
+%=========================================================================
 
 % 01 Go Home
     disp('Going home...');
@@ -8,6 +18,8 @@ clc
     resetWorld;      % reset models through a gazebo service
 
 robot = loadrobot("universalUR5e","DataFormat","row");
+
+%%Create collision Box types
 canBox = collisionBox(0.062, 0.062, 0.14);
 bottleBox = collisionBox(0.062, 0.062, 0.2);
 pouchBox = collisionBox(0.03, 0.03, 0.03);
@@ -22,13 +34,14 @@ wcaseBox = collisionBox(0.5, 0.1, 0.4)
 qn = [pi/2 -pi/2 0 0 0 0];
 robot.show(qn)
 
-W_T_R = get_model_pose('robot')
 hold on
 
+
+%% Associating collision boxes to each object pose
 for i = [0:39]
-    if ismember(i, [31:39])         %All Bottles
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i};           
+    if ismember(i, [31:39])     %All Bottles
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i}  
     
         fprintf('Creating Collision Boxes model: %s \n',model_name);
         position = get_model_pose(model_name);
@@ -37,102 +50,97 @@ for i = [0:39]
         env{i}.Pose = mat_R_T_M;
         show(env{i})
         hold on
-    elseif ismember(i, [20:30])     % All Cans
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i};  
+
+    elseif ismember(i, [20:30]) %All Cans
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i}  
     
         fprintf('Creating Collision Boxes model: %s \n',model_name);
         position = get_model_pose(model_name);
-        [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);      
+        [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);        
         env{i}= canBox;
         env{i}.Pose = mat_R_T_M;
-
         show(env{i})
         hold on
-    elseif ismember(i, [12:19])     % All Pouches
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i}; 
+
+    elseif ismember(i, [12:19]) %All Pouches
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i}  
     
         fprintf('Creating Collision Boxes model: %s \n',model_name);
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);
         env{i} = pouchBox;
         env{i}.Pose = mat_R_T_M;
-
         show(env{i})
         hold on
-    elseif ismember(i, [11])        % Scale
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i};  
-    
+
+    elseif ismember(i, [11])    %Scale
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i}  
         fprintf('Creating Collision Boxes model: %s \n',model_name);
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);
         env{i} = scaleBox;
         env{i}.Pose = mat_R_T_M;
-        
         show(env{i})
         hold on
-    elseif ismember(i, [10])        % box2
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i};
+    elseif ismember(i, [10])    %Scale
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i}  
     
         fprintf('Creating Collision Boxes model: %s \n',model_name);
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);
-        env{i} = box2Box;        
+        env{i} = box2Box;
         env{i}.Pose = mat_R_T_M;
-        
         show(env{i})
         hold on
-     elseif ismember(i, [9])        % box2
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i}; 
-    
-        fprintf('Creating Collision Boxes model: %s \n',model_name);
-        position = get_model_pose(model_name);
-        [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);
-        env{i} = box1Box;        
-        env{i}.Pose = mat_R_T_M;
-        
-        show(env{i})
-        hold on
-     elseif ismember(i, [8])        % wcase
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i};  
+
+     elseif ismember(i, [8])    %Scale
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i}  
     
         fprintf('Creating Collision Boxes model: %s \n',model_name);
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);
         mat_R_T_M(1,4) = mat_R_T_M(1,4)-0.2
-        env{i} = wcaseBox;        
+        env{i} = wcaseBox;
         env{i}.Pose = mat_R_T_M;
-        
         show(env{i})
         hold on
-    elseif ismember(i, [4])         % unit_box
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i}; 
-    
+
+    elseif ismember(i, [9])    %Scale
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i} 
+        fprintf('Creating Collision Boxes model: %s \n',model_name);
+        position = get_model_pose(model_name);
+        [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);
+        env{i} = box1Box;
+        env{i}.Pose = mat_R_T_M;
+        show(env{i})
+        hold on
+
+    elseif ismember(i, [4])    %Scale
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i}  
         fprintf('Creating Collision Boxes model: %s \n',model_name);
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);
         env{i} = unitBox;
         env{i}.Pose = mat_R_T_M;
-
         show(env{i})
         hold on
-    elseif ismember(i, [2, 3])      % Table
-        models = getModels;         % Extract gazebo model list
-        model_name = models.ModelNames{i}; 
-        
+
+    elseif ismember(i, [2, 3])    %Scale
+        models = getModels;                                  % Extract gazebo model list
+        model_name = models.ModelNames{i};         % rCan3=26, yCan1=27,rBottle2=32...%model_name = models.ModelNames{i}  
         fprintf('Creating Collision Boxes model: %s \n',model_name);
         position = get_model_pose(model_name);
         [mat_R_T_G, mat_R_T_M] = get_object_pose_Zac(model_name);
         env{i} = tableBox;
         mat_R_T_M(3,4) =  (mat_R_T_M(3,4)+0.25);
         env{i}.Pose= mat_R_T_M;
-
         show(env{i})
         hold on
     else
