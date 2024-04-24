@@ -126,7 +126,7 @@ function individualArmRound2(object_number, env_i_f)
         gripperManualUse3(0.205)
     elseif ismember(object_number, [32,35])
         gripperManualUse3(0.21)
-    elseif ismember(object_number, [33,34,36,38])  % vertical bottles
+    elseif ismember(object_number, [33,34,38])  % vertical bottles
         gripperManualUse3(0.514)
     elseif ismember(object_number, 37)  % one vertical bottle yBottle2
         gripperManualUse3(0.52)
